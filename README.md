@@ -1,2 +1,6 @@
-# calculator
-Calculadora HTTP/CSS/JS
+# Calculadora HTTP/CSS/JS
+- Diseño con flexbox
+- Listener boton y teclado
+
+Arreglar overflow-x del display
+

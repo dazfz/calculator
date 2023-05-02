@@ -30,6 +30,9 @@ const opButtons = document.querySelectorAll('.op');
 opButtons.forEach(button => {
     button.addEventListener('click', () => {
         hasOperator = false;
+        if (op == '=') {
+            previnput = x; document.querySelector('.prev').textContent = previnput;
+        }
         // guardar el primer input
         if (x == null) {
             x = parseFloat(input);
@@ -49,10 +52,7 @@ opButtons.forEach(button => {
         document.querySelector('.now').textContent = x, input = '';
         // cambio la operacion al final, para que haga la operacion con el segundo numero primero
         op = button.textContent;
-        if (op == '=') {
-            y = null, hasOperator = true;
-            previnput = ''; document.querySelector('.prev').textContent = '';
-        }
+        if (op == '=') y = null, hasOperator = true;
     });
 });
 
@@ -105,6 +105,9 @@ document.addEventListener('keydown', (event) => {
     // Si la tecla presionada es un operador, ejecutamos la operación correspondiente
     else if (/^[\+\-\*\/]$/.test(event.key) || event.key === 'Enter') {
         hasOperator = false;
+        if (op == 'Enter') {
+            previnput = x; document.querySelector('.prev').textContent = previnput;
+        }
         if (x == null) {
             x = parseFloat(input);
             previnput += input;
@@ -120,10 +123,7 @@ document.addEventListener('keydown', (event) => {
         }
         document.querySelector('.now').textContent = x, input = '';
         op = event.key;
-        if (op == 'Enter') {
-            y = null, hasOperator = true;
-            previnput = ''; document.querySelector('.prev').textContent = '';
-        }
+        if (op == 'Enter') y = null, hasOperator = true;
     }
     // Si la tecla presionada es Delete, borramos el último dígito
     else if (event.key === 'Backspace') {

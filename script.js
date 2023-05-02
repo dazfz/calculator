@@ -3,7 +3,7 @@ const subtract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 const divide = (x, y) => x / y;
 
-let input = '', x, y, op = '', hasOperator = false;
+let input = '', previnput = '', x, y, op = '', hasOperator = false;
 
 const operate = (x, y, op) => {
     switch (op) {
@@ -19,7 +19,7 @@ numButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (hasOperator) return;
         input += button.textContent;
-        display.textContent = input;
+        document.querySelector('.now').textContent = input; // actualizar número actual
     });
 });
 
@@ -28,37 +28,47 @@ opButtons.forEach(button => {
     button.addEventListener('click', () => {
         hasOperator = false;
         // guardar el primer input
-        if (x == null) x = parseFloat(input);
+        if (x == null) {
+            x = parseFloat(input);
+            previnput += input;
+            document.querySelector('.prev').textContent = previnput;
+        }
         // guardar los demas input
         else if (x != null && y == null && input != '') {
             y = parseFloat(input);
             x = operate(x, y, op); // hacer la operacion (x,y) y guardarlo en x
+            if (previnput != '') previnput += op;
+            previnput += y;
+            document.querySelector('.prev').textContent = previnput;
             // reiniciar el input y deja ingresar numeros denuevo
             y = null;
         }
-        display.textContent = x, input = '';
+        document.querySelector('.now').textContent = x, input = '';
         // cambio la operacion al final, para que haga la operacion con el segundo numero primero
         op = button.textContent;
-        if (op == '=') y = null, hasOperator = true;
+        if (op == '=') {
+            y = null, hasOperator = true;
+            previnput = ''; document.querySelector('.prev').textContent = '';
+        }
     });
 });
 
 const ac = () => {
-    x = y = null; input = op = ''; hasOperator = false;
-    display.textContent = input;
+    x = y = null; input = previnput = op = ''; hasOperator = false;
+    document.querySelector('.now').textContent = document.querySelector('.prev').textContent = input;
 }
 const neg = () => {
-    if (hasOperator) x *= -1, display.textContent = x;
+    if (hasOperator) x *= -1, document.querySelector('.now').textContent = x;
     else {
         input = input.startsWith('-') ? input.slice(1) : `-${input}`;
-        display.textContent = input;
+        document.querySelector('.now').textContent = input;
     }
 }
 
 const del = () => {
     if (!hasOperator) {
         input = input.slice(0, -1);
-        display.textContent = input;
+        document.querySelector('.now').textContent = input;
     }
 };
 
@@ -87,7 +97,7 @@ document.addEventListener('keydown', (event) => {
     if (/^[0-9]$/.test(event.key)) {
         if (hasOperator) return;
         input += event.key;
-        display.textContent = input;
+        document.querySelector('.now').textContent = input;
     }
     // Si la tecla presionada es un operador, ejecutamos la operación correspondiente
     else if (/^[\+\-\*\/]$/.test(event.key) || event.key === 'Enter') {
@@ -98,7 +108,7 @@ document.addEventListener('keydown', (event) => {
             x = operate(x, y, op);
             y = null;
         }
-        display.textContent = x, input = '';
+        document.querySelector('.now').textContent = x, input = '';
         op = event.key;
         if (op == 'Enter') y = null, hasOperator = true;
     }

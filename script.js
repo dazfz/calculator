@@ -11,6 +11,9 @@ const operate = (x, y, op) => {
         case '−': return subtract(x, y);
         case '×': return multiply(x, y);
         case '÷': return divide(x, y);
+        case '-': return subtract(x, y);
+        case '*': return multiply(x, y);
+        case '/': return divide(x, y);
     }
 }
 
@@ -102,15 +105,25 @@ document.addEventListener('keydown', (event) => {
     // Si la tecla presionada es un operador, ejecutamos la operación correspondiente
     else if (/^[\+\-\*\/]$/.test(event.key) || event.key === 'Enter') {
         hasOperator = false;
-        if (x == null) x = parseFloat(input);
+        if (x == null) {
+            x = parseFloat(input);
+            previnput += input;
+            document.querySelector('.prev').textContent = previnput;
+        }
         else if (x != null && y == null && input != '') {
             y = parseFloat(input);
             x = operate(x, y, op);
+            if (previnput != '') previnput += op;
+            previnput += y;
+            document.querySelector('.prev').textContent = previnput;
             y = null;
         }
         document.querySelector('.now').textContent = x, input = '';
         op = event.key;
-        if (op == 'Enter') y = null, hasOperator = true;
+        if (op == 'Enter') {
+            y = null, hasOperator = true;
+            previnput = ''; document.querySelector('.prev').textContent = '';
+        }
     }
     // Si la tecla presionada es Delete, borramos el último dígito
     else if (event.key === 'Backspace') {

@@ -1,4 +1,4 @@
-# Calculadora HTTP/CSS/JS
+# Calculadora HTML/CSS/JS
 - Diseño con flexbox
 - Listener boton y teclado
 

@@ -29,19 +29,22 @@ const operate = (x, y, op) => {
   }
 };
 
+// seleccionar botones que son numeros
 const numButtons = document.querySelectorAll(".num");
 numButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (hasOperator) return;
+    if (hasOperator) return; // cuando apreto un boton de operador, se reinicia el display
     input += button.textContent;
     document.querySelector(".now").textContent = input; // actualizar número actual
   });
 });
 
+// seleccionar botones que son operadores
 const opButtons = document.querySelectorAll(".op");
 opButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    hasOperator = false;
+    hasOperator = false; // dejo que se pueda escribir el input nuevamente
+    // si aprete =, quiero que se muestre los 2 numeros anteriores operados
     if (op == "=") {
       previnput = x;
       document.querySelector(".prev").textContent = previnput;
@@ -49,14 +52,14 @@ opButtons.forEach((button) => {
     // guardar el primer input
     if (x == null) {
       x = parseFloat(input);
-      previnput += input;
+      previnput += input; // guardar todas las operaciones hechas
       document.querySelector(".prev").textContent = previnput;
     }
     // guardar los demas input
     else if (x != null && y == null && input != "") {
       y = parseFloat(input);
       x = operate(x, y, op); // hacer la operacion (x,y) y guardarlo en x
-      if (previnput != "") previnput += op;
+      if (previnput != "") previnput += op; // guardar todas las operaciones hechas
       previnput += y;
       document.querySelector(".prev").textContent = previnput;
       // reiniciar el input y deja ingresar numeros denuevo
@@ -78,7 +81,9 @@ const ac = () => {
   ).textContent = input;
 };
 const neg = () => {
+  // si el numero ya esta almacenado como numero
   if (hasOperator) (x *= -1), (document.querySelector(".now").textContent = x);
+  // si estoy escribiendo el numero
   else {
     input = input.startsWith("-") ? input.slice(1) : `-${input}`;
     document.querySelector(".now").textContent = input;
@@ -112,6 +117,7 @@ modButtons.forEach((button) => {
   });
 });
 
+// input para teclado
 document.addEventListener("keydown", (event) => {
   // Si la tecla presionada es un número, agregamos el dígito al input
   if (/^[0-9]$/.test(event.key)) {

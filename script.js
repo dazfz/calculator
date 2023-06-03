@@ -1,31 +1,23 @@
-const add = (x, y) => x + y;
-const subtract = (x, y) => x - y;
-const multiply = (x, y) => x * y;
-const divide = (x, y) => x / y;
-
-let input = "",
-  previnput = "",
-  x,
-  y,
-  op = "",
-  hasOperator = false;
+let input = "";
+let previnput = "";
+let x;
+let y;
+let op = "";
+let hasOperator = false;
 
 const operate = (x, y, op) => {
   switch (op) {
     case "+":
-      return add(x, y);
-    case "−":
-      return subtract(x, y);
-    case "×":
-      return multiply(x, y);
-    case "÷":
-      return divide(x, y);
+      return x + y;
     case "-":
-      return subtract(x, y);
+    case "−":
+      return x - y;
     case "*":
-      return multiply(x, y);
+    case "×":
+      return x * y;
     case "/":
-      return divide(x, y);
+    case "÷":
+      return x / y;
   }
 };
 
@@ -128,7 +120,7 @@ document.addEventListener("keydown", (event) => {
   // Si la tecla presionada es un operador, ejecutamos la operación correspondiente
   else if (/^[\+\-\*\/]$/.test(event.key) || event.key === "Enter") {
     hasOperator = false;
-    if (op == "Enter") {
+    if (op === "Enter") {
       previnput = x;
       document.querySelector(".prev").textContent = previnput;
     }

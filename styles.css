@@ -21,7 +21,7 @@ body {
 }
 
 main {
-  min-width: 375px;
+  width: 375px;
   height: 600px;
   display: flex;
   flex-direction: column;
